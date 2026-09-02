@@ -3,6 +3,7 @@ Mi github de la clase de Fundamentos de la programación.
 Las criptomonedas son conocidas por ser un activo financiero que es de los más volatiles existentes, lo que significa que de un minuto a otro puede haber un cambio grande en su valor, lo que hace que si quieres visualizar varias monedas termines cansado de tener varias graficas abiertas, o no podrás prestarle la atención necesaria a cada una. Este proyecto lo hago porque me interesa poder ver datos en tiempo real con un equipo hecho pro mí, así como ver el análisis de tendencias en una interfaz visual y aplicar algunos de los conocimientos de POO que ya tengo. Esto tiene el fin de poder ayudar a una persona a monitorear el valor de su portafolio y recibir alertas cuando un valor cruce cierto precio marcado.
 
 **ALGORITMO**
+```text
 1.Inicio
 2.Cargar portafolio guardado
 3. Mostrar menu al usuario:
@@ -23,6 +24,6 @@ Las criptomonedas son conocidas por ser un activo financiero que es de los más 
 5. Guardar cambios del portafolio y del historial antes de salir
 6. Repetir desde el paso 3 hasta que el usuario decida salir
 7. Fin del programa
-
+```
 **Aclaracion**
 Esta es mi idea inicial del proyecto, me gustaría configurarlo para que se corra de manera automática cada cierto tiempo, pero no sé lo que eso conlleva de recursos ni de código, por lo que no lo anote como el punto final, pero me gustaría desarrollarlo a eso.
