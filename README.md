@@ -4,6 +4,14 @@ Las criptomonedas son conocidas por ser un activo financiero que es de los más 
 
 **ALGORITMO**
 ```text
+Entradas
+
+- Monto invertido en Bitcoin (USD)
+- Monto invertido en Ethereum (USD)
+- Monto invertido en Solana (USD)
+- Opción seleccionada por el usuario en el menú (número del 1 al 5)
+Procesos
+
 1.Inicio
 2.Cargar portafolio guardado
 3. Mostrar menu al usuario:
@@ -24,6 +32,12 @@ Las criptomonedas son conocidas por ser un activo financiero que es de los más 
 5. Guardar cambios del portafolio y del historial antes de salir
 6. Repetir desde el paso 3 hasta que el usuario decida salir
 7. Fin del programa
+Salidas
+- Monto invertido en cada criptomoneda individualmente
+- Porcentaje que representa cada criptomoneda del total invertido
+- Monto total invertido
+- Monto de la mayor inversión individual
+- Mensaje de despedida al salir del programa
 ```
 **Aclaracion**
 Esta es mi idea inicial del proyecto, me gustaría configurarlo para que se corra de manera automática cada cierto tiempo, pero no sé lo que eso conlleva de recursos ni de código, por lo que no lo anote como el punto final, pero me gustaría desarrollarlo a eso.
