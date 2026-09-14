@@ -12,26 +12,34 @@ Entradas
 - Opción seleccionada por el usuario en el menú (número del 1 al 5)
 Procesos
 
-1.Inicio
-2.Cargar portafolio guardado
-3. Mostrar menu al usuario:
- 3.1Agregar criptomoneda
- 3.2 Quitar criptomoneda
- 3.3 Actualizar precios 
- 3.4 Ver historial 
- 3.5 Configurar alarma de precios
- 3.6 Ver alertas actovas
- 3.7 Salior
-4. Dependiendo de la opcion elegida:
- -Si agrega: pedir simbolo del activo, validar que exista, añadirlo al portafolio
- -Si quita: pedir simbolo, eliminarlo del portafolio si existe
- -Si actualiza precio: para cada activo en el portafolio, obtener precio actual, guardar el nuevo dato en el historial local
- -Si consulta historia: pedir simbolo, calcular variacion entre primer y ultimo precio guardado, mostrar tendencia
- -Si configura alerta: pedir simbolo, tipo de alerta (sube de x valor / baja de x valor), guardar la alerta asociada al activo
- -Si revisa alertas: Comparar precio actual del activo contra la alerta configurada: si se cumple la condición, notificar
-5. Guardar cambios del portafolio y del historial antes de salir
-6. Repetir desde el paso 3 hasta que el usuario decida salir
-7. Fin del programa
+Procesos
+1. Inicio
+2. Definir el monto invertido en Bitcoin, Ethereum y Solana
+3. Calcular la inversión total sumando los tres montos
+4. Calcular el porcentaje que representa cada criptomoneda respecto al total
+5. Calcular cual es la mayor inversión individual
+6. Mostrar el menú de opciones al usuario
+7. Leer la opción ingresada por el usuario
+8. Si la opción es 1:
+   8.1. Mostrar el monto invertido en Bitcoin
+   8.2. Mostrar el monto invertido en Ethereum
+   8.3. Mostrar el monto invertido en Solana
+9. Si la opción es 2:
+   9.1. Mostrar el porcentaje de Bitcoin respecto al total
+   9.2. Mostrar el porcentaje de Ethereum respecto al total
+   9.3. Mostrar el porcentaje de Solana respecto al total
+10. Si la opción es 3:
+    10.1. Mostrar el monto total invertido
+11. Si la opción es 4:
+    11.1. Mostrar el monto de la mayor inversión individual
+12. Si la opción es 5:
+    12.1. Mostrar mensaje de despedida
+    12.2. Finalizar el programa
+13. Si la opción no corresponde a ninguna de las anteriores:
+    13.1. Mostrar mensaje de opción no válida
+14. Repetir desde el paso 6 mientras la opción no sea 5
+15. Fin
+
 Salidas
 - Monto invertido en cada criptomoneda individualmente
 - Porcentaje que representa cada criptomoneda del total invertido
