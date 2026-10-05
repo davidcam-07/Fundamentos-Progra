@@ -1,7 +1,36 @@
+import urllib.request
+import json
+API_KEY = "API_KEY"
+precio_compra_bitcoin = 60000.00
+
 inversion_bitcoin = 250.50
 inversion_ethereum = 180.00
 inversion_solana = 75.25
 
+def obtener_precio_bitcoin():
+    url = "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd"
+    if API_KEY != "API_KEY":
+        url = url + f"&x_cg_demo_api_key={API_KEY}"
+    with urllib.request.urlopen(url) as respuesta:
+        datos = json.loads(respuesta.read())
+    if "bitcoin" in datos:
+        return datos["bitcoin"]["usd"]
+    else:
+        return None
+
+def calcular_ganancia(inversion, precio_compra, precio_actual):
+    valor_actual = inversion * (precio_actual / precio_compra)
+    return valor_actual - inversion
+    
+def mostrar_estado_bitcoin(precio_actual, precio_compra, ganancia):
+    print(f"Precio actual de Bitcoin: ${precio_actual:.2f}")
+    if precio_actual > precio_compra:
+        print(f"Tu inversión en Bitcoin va en ganancia: +${ganancia:.2f}")
+    elif precio_actual < precio_compra:
+        print(f"Tu inversión en Bitcoin va en pérdida: -${abs(ganancia):.2f}")
+    else:
+        print("Tu inversión en Bitcoin no ha cambiado.")
+        
 def calcular_total(monto1, monto2, monto3):
     return monto1 + monto2 + monto3
 
@@ -45,6 +74,12 @@ porcentaje_bitcoin = calcular_porcentaje(inversion_bitcoin, inversion_total)
 porcentaje_ethereum = calcular_porcentaje(inversion_ethereum, inversion_total)
 porcentaje_solana = calcular_porcentaje(inversion_solana, inversion_total)
 mayor_inversion = calcular_mayor_inversion(inversion_bitcoin, inversion_ethereum, inversion_solana)
+precio_actual = obtener_precio_bitcoin()
+if precio_actual is None:
+    print("No se pudo obtener el precio actual de Bitcoin.")
+else:
+    ganancia = calcular_ganancia(inversion_bitcoin, precio_compra_bitcoin, precio_actual)
+    mostrar_estado_bitcoin(precio_actual, precio_compra_bitcoin, ganancia)
 
 opcion = ""
 while opcion != "5":
