@@ -1,6 +1,3 @@
-# Proyecto de clase
-# Supuesto: cantidad de dinero invertido (en USD) en distintas criptomonedas
-
 import urllib.request
 import json
 
@@ -79,6 +76,40 @@ def construir_matriz_precios(lista_ids):     # Matriz: una fila por criptomoneda
             return None
         matriz.append(fila)
     return matriz
+    
+def obtener_tendencia(fila):
+    # Compara el último precio contra el primero de la fila
+    if fila[-1] > fila[0]:
+        return "al alza"
+    elif fila[-1] < fila[0]:
+        return "a la baja"
+    else:
+        return "estable"
+
+def mostrar_resumen_cripto(posicion, lista_nombres, lista_inversiones, lista_porcentajes, matriz):
+    nombre = lista_nombres[posicion]
+    print("\n" + "=" * 30)
+    print(nombre.upper().center(30))
+    print("=" * 30)
+    print(f"Inversión: ${lista_inversiones[posicion]:.2f}")
+    print(f"Porcentaje del portafolio: {lista_porcentajes[posicion]:.1f}%")
+    if matriz is None:
+        print("Precios no disponibles (sin conexión a la API).")
+    else:
+        fila = matriz[posicion]
+        print(f"Precio actual: ${fila[-1]:.2f}")
+        print(f"Tendencia: {obtener_tendencia(fila)}")
+
+def buscar_cripto(texto, lista_nombres):
+    # Limpia el texto (quita espacios y pasa a minúsculas) y busca una cripto
+    texto = texto.strip().lower()
+    if texto == "":
+        return -1
+    for i in range(len(lista_nombres)):
+        nombre = lista_nombres[i].lower()
+        if nombre.startswith(texto):
+            return i
+    return -1
 
 def mostrar_menu():
     print("\n--- Menú ---")
@@ -87,7 +118,9 @@ def mostrar_menu():
     print("3. Ver inversión total")
     print("4. Ver la mayor inversión")
     print("5. Ver historial de precios")    
-    print("6. Salir")
+    print("6. Buscar criptomoneda por nombre")
+    print("7. Salir")
+
 
 
 
@@ -139,19 +172,13 @@ def mostrar_historial(lista_nombres, matriz):
 def mostrar_tendencias(lista_nombres, matriz):
     print("\nTendencia en el periodo:")
     for i in range(len(matriz)):
-        primero = matriz[i][0]
-        ultimo = matriz[i][-1]
         promedio = calcular_promedio(matriz[i])
-        if ultimo > primero:
-            tendencia = "al alza"
-        elif ultimo < primero:
-            tendencia = "a la baja"
-        else:
-            tendencia = "estable"
+        tendencia = obtener_tendencia(matriz[i])
         print(f"{lista_nombres[i]}: {tendencia} (precio promedio ${promedio:.2f})")
+
  
 
-# Programa principal
+# MAIN
 inversion_total = calcular_total(inversiones)
 
 porcentajes = calcular_porcentajes(inversiones, inversion_total)
@@ -168,9 +195,9 @@ else:
     mostrar_ganancias(nombres, inversiones, precios_compra, matriz_precios)
 
 opcion = ""
-while opcion != "6":
+while opcion != "7":
     mostrar_menu()
-    opcion = input("Elige una opción: ")
+    opcion = input("Elige una opción: ").strip()
 
     if opcion == "1":
         mostrar_inversiones(nombres, inversiones)
@@ -187,7 +214,15 @@ while opcion != "6":
             mostrar_historial(nombres, matriz_precios)
             mostrar_tendencias(nombres, matriz_precios)
     elif opcion == "6":
-        print("Saliendo del programa...")
+        texto = input("¿Que criptomoneda quieres buscar?: ")
+        posicion = buscar_cripto(texto, nombres)
+        if posicion == -1:
+            print(f"No se encontró '{texto.strip().title()}' en tu portafolio.")
+        else:
+            mostrar_resumen_cripto(posicion, nombres, inversiones, porcentajes, matriz_precios)
+    elif opcion == "7":
+        print("Saliendo del programa")
+
 
     else:
         print("Opción no válida, intenta de nuevo.")
