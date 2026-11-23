@@ -1,25 +1,21 @@
 import urllib.request
 import json
 
+ARCHIVO_REPORTE = "reporte.txt" #Documento donde se va a guardar el Reporte necesario para el avance  9
 API_KEY = "TU_API_KEY"  # placeholder
 DIAS = 7 #Los ultimos 7 dias se piden a la API 
-
 #Listas
 nombres = ["Bitcoin", "Ethereum", "Solana"]
 ids_api = ["bitcoin", "ethereum", "solana"] #nombre de la api en el mercado
 inversiones = [250.50, 180.00, 75.25]
-
-
 # Supuesto: precio al que se compró la cripto
 precios_compra= [60000.00, 2400.00, 140.00]
-
 
 def calcular_total(lista_montos):
     total = 0
     for monto in lista_montos:
         total = total + monto
     return total
-
 
 def calcular_porcentaje(monto, total):
     return (monto / total) * 100
@@ -29,7 +25,6 @@ def calcular_porcentajes(lista_montos, total):
     for monto in lista_montos:
         porcentajes.append(calcular_porcentaje(monto, total))
     return porcentajes
-
 
 def calcular_mayor_inversion(lista_montos):
     mayor = lista_montos[0]
@@ -111,6 +106,27 @@ def buscar_cripto(texto, lista_nombres):
             return i
     return -1
 
+def exportar_reporte(nombre_archivo, lista_nombres, lista_inversiones, lista_porcentajes,total, mayor, lista_compras, matriz):
+    # Escribe el reporte del portafolio en un archivo de texto
+    with open(nombre_archivo, "w", encoding="utf-8") as archivo:
+        archivo.write("REPORTE DEL PORTAFOLIO\n")
+        archivo.write("=" * 30 + "\n")
+        archivo.write(f"Inversión total: ${total:.2f}\n")
+        archivo.write(f"Mayor inversión individual: ${mayor:.2f}\n")
+        archivo.write("\nDetalle por criptomoneda:\n")
+        for i in range(len(lista_nombres)):
+            archivo.write(f"{lista_nombres[i]}: ${lista_inversiones[i]:.2f} ({lista_porcentajes[i]:.1f}%)\n")
+        archivo.write("\nEstado en el mercado:\n")
+        if matriz is None:
+            archivo.write("Precios no disponibles (sin conexión a la API).\n")
+        else:
+            for i in range(len(lista_nombres)):
+                precio_actual = matriz[i][-1]
+                ganancia = calcular_ganancia(lista_inversiones[i], lista_compras[i], precio_actual)
+                tendencia = obtener_tendencia(matriz[i])
+                archivo.write(f"{lista_nombres[i]}: precio actual ${precio_actual:.2f}, "
+                              f"tendencia {tendencia}, ganancia/pérdida {ganancia:+.2f} USD\n")
+                
 def mostrar_menu():
     print("\n--- Menú ---")
     print("1. Ver inversiones individuales")
@@ -119,29 +135,22 @@ def mostrar_menu():
     print("4. Ver la mayor inversión")
     print("5. Ver historial de precios")    
     print("6. Buscar criptomoneda por nombre")
-    print("7. Salir")
-
-
-
+    print("7. Exportar reporte a archivo")
+    print("8. Salir")
 
 def mostrar_inversiones(lista_nombres, lista_montos):
     for i in range(len(lista_nombres)):
         print(f"{lista_nombres[i]}: ${lista_montos[i]:.2f}")
 
-
-
 def mostrar_porcentajes(lista_nombres, lista_porcentajes):
     for i in range(len(lista_nombres)):
         print(f"{lista_nombres[i]}: {lista_porcentajes[i]:.1f}%")
 
-
 def mostrar_total(total):
     print(f"Inversión total: ${total:.2f}")
 
-
 def mostrar_mayor_inversion(mayor):
     print(f"La mayor inversión individual es de: ${mayor:.2f}")
-
 
 def mostrar_ganancias(lista_nombres, lista_inversiones, lista_compras, matriz):
     print("\nEstado actual de tus inversiones:")
@@ -175,30 +184,23 @@ def mostrar_tendencias(lista_nombres, matriz):
         promedio = calcular_promedio(matriz[i])
         tendencia = obtener_tendencia(matriz[i])
         print(f"{lista_nombres[i]}: {tendencia} (precio promedio ${promedio:.2f})")
-
- 
-
+        
 # MAIN
 inversion_total = calcular_total(inversiones)
-
 porcentajes = calcular_porcentajes(inversiones, inversion_total)
-
 mayor_inversion = calcular_mayor_inversion(inversiones)
 
 # Consulta del precio actual al iniciar el programa y general la matrizz de precios de las 3 criptos y los DIAS
-
 print("Consultando precios en CoinGecko...")
 matriz_precios = construir_matriz_precios(ids_api)
 if matriz_precios is None:
     print("No se pudieron obtener los precios. La opción 5 no tendrá datos.")
 else:
     mostrar_ganancias(nombres, inversiones, precios_compra, matriz_precios)
-
 opcion = ""
-while opcion != "7":
+while opcion != "8":
     mostrar_menu()
     opcion = input("Elige una opción: ").strip()
-
     if opcion == "1":
         mostrar_inversiones(nombres, inversiones)
     elif opcion == "2":
@@ -221,8 +223,10 @@ while opcion != "7":
         else:
             mostrar_resumen_cripto(posicion, nombres, inversiones, porcentajes, matriz_precios)
     elif opcion == "7":
+        exportar_reporte(ARCHIVO_REPORTE, nombres, inversiones, porcentajes,inversion_total, mayor_inversion, precios_compra, matriz_precios)
+        print(f"Reporte guardado en {ARCHIVO_REPORTE}")
+    elif opcion == "8":
         print("Saliendo del programa")
-
-
+        
     else:
         print("Opción no válida, intenta de nuevo.")
