@@ -1,0 +1,14 @@
+REPORTE DEL PORTAFOLIO
+==============================
+Inversión total: $505.75
+Mayor inversión individual: $250.50
+
+Detalle por criptomoneda:
+Bitcoin: $250.50 (49.5%)
+Ethereum: $180.00 (35.6%)
+Solana: $75.25 (14.9%)
+
+Estado en el mercado:
+Bitcoin: precio actual $61431.94, tendencia a la baja, ganancia/pérdida +5.98 USD
+Ethereum: precio actual $1728.94, tendencia a la baja, ganancia/pérdida -50.33 USD
+Solana: precio actual $71.73, tendencia a la baja, ganancia/pérdida -36.70 USD
